@@ -9,12 +9,25 @@ use crate::{
     },
 };
 
-// //returns (
-//         uint160 sqrtRatioNextX96,
-//         uint256 amountIn,
-//         uint256 amountOut,
-//         uint256 feeAmount
-//     )
+/// Computes the result of swapping some amount in, or amount out, given the parameters of the swap.
+/// 
+/// The fee, plus the amount in, will never exceed the amount remaining if the swap's `amountSpecified` is positive.
+/// 
+/// ### Params
+/// 
+/// * `sqrtRatioCurrentX96` The current sqrt price of the pool
+/// * `sqrtRatioTargetX96` The price that cannot be exceeded, from which the direction of the swap is inferred
+/// * `liquidity` The usable liquidity
+/// * `amountRemaining` How much input or output amount is remaining to be swapped in/out
+/// * `feePips` The fee taken from the input amount, expressed in hundredths of a bip
+/// 
+/// ### Returns
+/// 
+/// * `sqrtRatioNextX96` The price after swapping the amount in/out, not to exceed the price target
+/// * `amountIn` The amount to be swapped in, of either token0 or token1, based on the direction of the swap
+/// * `amountOut` The amount to be received, of either token0 or token1, based on the direction of the swap
+/// * `feeAmount` The amount of input that will be taken as a fee
+/// 
 pub fn compute_swap_step(
     sqrt_ratio_current_x_96: U256,
     sqrt_ratio_target_x_96: U256,
